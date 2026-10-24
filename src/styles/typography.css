@@ -1,0 +1,71 @@
+/* ==========================================================================
+   Editorial Broadsheet Typography System
+   Offline-first: Zero runtime external network requests.
+   High-contrast display serif paired with crisp utilitarian grotesque.
+   ========================================================================== */
+
+:root {
+  --font-display: 'Didot', 'Bodoni MT', 'Baskerville', 'Playfair Display', Georgia, serif;
+  --font-text: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', 'Roboto Mono', Menlo, Consolas, monospace;
+
+  /* Font weight tokens */
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  /* Letter spacing */
+  --tracking-tight: -0.04em;
+  --tracking-hero: -0.06em;
+  --tracking-wide: 0.08em;
+  --tracking-caps: 0.12em;
+}
+
+/* Tabular figures for numerals & telemetry */
+.numeral,
+.tabular {
+  font-variant-numeric: tabular-nums lining-nums;
+  -webkit-font-feature-settings: 'tnum' 1, 'lnum' 1;
+  font-feature-settings: 'tnum' 1, 'lnum' 1;
+}
+
+/* Giant Hero Temperature Numerals (96px - 140px) */
+.hero-temp-value {
+  font-family: var(--font-display);
+  font-size: clamp(96px, 24vw, 140px);
+  font-weight: 400;
+  line-height: 0.85;
+  letter-spacing: var(--tracking-hero);
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  margin: 0;
+  padding: 0;
+}
+
+/* Broadsheet Section Headings */
+.broadsheet-kicker {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-caps);
+  color: var(--muted);
+}
+
+.broadsheet-title {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 400;
+  letter-spacing: var(--tracking-tight);
+  color: var(--ink);
+  line-height: 1.15;
+}
+
+.broadsheet-subhead {
+  font-family: var(--font-text);
+  font-size: 14px;
+  font-weight: var(--weight-regular);
+  color: var(--muted);
+  line-height: 1.4;
+}

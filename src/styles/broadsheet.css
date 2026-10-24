@@ -1,0 +1,686 @@
+/* ==========================================================================
+   Editorial Broadsheet Layout & Components
+   Mobile-First Android Architecture (Safe Areas, 100dvh, 48px touch targets)
+   Hairline rules, asymmetric grid, ruled telemetry rows.
+   ========================================================================== */
+
+/* App Frame & Viewport */
+.broadsheet-app {
+  min-height: 100vh;
+  min-height: 100dvh;
+  width: 100%;
+  background: linear-gradient(175deg, var(--bg-from) 0%, var(--bg-to) 100%);
+  background-attachment: fixed;
+  color: var(--ink);
+  font-family: var(--font-text);
+  line-height: 1.45;
+  transition: background 600ms ease, color 400ms ease;
+  position: relative;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.broadsheet-container {
+  width: 100%;
+  max-width: 680px; /* Editorial column width on tablet/desktop */
+  margin: 0 auto;
+  padding: max(16px, env(safe-area-inset-top)) 20px max(24px, env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  position: relative;
+  z-index: 2;
+}
+
+/* Hairline Rules */
+.rule-hairline {
+  border: none;
+  border-top: 1px solid var(--rule);
+  margin: 0;
+  width: 100%;
+}
+
+.rule-double {
+  border: none;
+  border-top: 2px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+  height: 5px;
+  margin: 0;
+  width: 100%;
+}
+
+/* ==========================================================================
+   1. Broadsheet Masthead
+   ========================================================================== */
+
+.masthead {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.masthead-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.masthead-edition {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.edition-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--accent);
+}
+
+.masthead-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 48x48px Accessible Touch Targets */
+.action-btn {
+  min-width: 48px;
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid var(--rule);
+  color: var(--ink);
+  border-radius: 4px;
+  touch-action: manipulation;
+  transition: transform 120ms ease, background-color 120ms ease;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.action-btn:active {
+  transform: scale(0.96);
+  background-color: rgba(0, 0, 0, 0.06);
+}
+
+.unit-btn {
+  padding: 0 14px;
+}
+
+.masthead-location-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  cursor: pointer;
+  touch-action: manipulation;
+  padding: 4px 0;
+}
+
+.masthead-city-title {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 6vw, 36px);
+  font-weight: 400;
+  letter-spacing: var(--tracking-tight);
+  color: var(--ink);
+  line-height: 1.1;
+  text-align: left;
+}
+
+.masthead-search-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  padding: 8px 12px;
+  border: 1px dashed var(--rule);
+  border-radius: 2px;
+  min-height: 48px;
+}
+
+/* ==========================================================================
+   2. Hero Temperature & Conditions Broadsheet
+   ========================================================================== */
+
+.hero-broadsheet {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  text-align: left;
+}
+
+.hero-lead-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.hero-temp-block {
+  display: flex;
+  align-items: flex-start;
+}
+
+.hero-temp-unit {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 8vw, 48px);
+  color: var(--accent);
+  margin-top: 8px;
+  margin-left: 2px;
+}
+
+.hero-icon-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  padding-top: 12px;
+}
+
+.hero-glyph {
+  color: var(--ink);
+}
+
+.hero-headline-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.hero-condition-lead {
+  font-family: var(--font-display);
+  font-size: clamp(22px, 5vw, 28px);
+  font-weight: 400;
+  letter-spacing: var(--tracking-tight);
+  line-height: 1.15;
+  color: var(--ink);
+}
+
+.hero-meta-summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 12px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.hero-high-low {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.hero-cache-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+/* ==========================================================================
+   3. Hourly Ruled Timeline (Horizontal Scroll Strip)
+   ========================================================================== */
+
+.hourly-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.hourly-strip {
+  display: flex;
+  overflow-x: auto;
+  gap: 16px;
+  padding: 10px 0 16px;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.hourly-strip::-webkit-scrollbar {
+  display: none;
+}
+
+.hourly-tick-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 68px;
+  flex-shrink: 0;
+  gap: 8px;
+  border-left: 1px solid var(--rule);
+  padding-left: 10px;
+}
+
+.hourly-tick-cell.is-now {
+  border-left: 2px solid var(--ink);
+}
+
+.hourly-tick-time {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.hourly-tick-temp {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--ink);
+}
+
+.hourly-tick-precip {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   4. Editorial Ruled Metrics Rows (No Identical Cards)
+   ========================================================================== */
+
+.ruled-metrics-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.metric-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.metric-label-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: left;
+}
+
+.metric-label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--muted);
+}
+
+.metric-caption {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.metric-value-group {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.metric-value {
+  font-family: var(--font-display);
+  font-size: 22px;
+  color: var(--ink);
+}
+
+.metric-unit {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* ==========================================================================
+   5. 7-Day Broadsheet Outlook Table
+   ========================================================================== */
+
+.daily-table-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.daily-row-item {
+  display: grid;
+  grid-template-columns: 80px 1fr 100px;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--rule);
+  text-align: left;
+}
+
+.daily-col-day {
+  display: flex;
+  flex-direction: column;
+}
+
+.daily-day-name {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.daily-day-date {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.daily-col-condition {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 13px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.daily-condition-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.daily-col-spread {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-size: 18px;
+}
+
+.spread-high {
+  color: var(--ink);
+  font-weight: 400;
+}
+
+.spread-low {
+  color: var(--muted);
+  font-size: 16px;
+}
+
+/* ==========================================================================
+   6. Non-Destructive Error Banner
+   ========================================================================== */
+
+.error-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 12px 16px;
+  background-color: var(--ink);
+  color: var(--bg-from);
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.4;
+  margin-bottom: 8px;
+  animation: slideDown 220ms ease;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.error-banner-retry {
+  min-height: 48px;
+  min-width: 48px;
+  padding: 0 14px;
+  background-color: var(--bg-from);
+  color: var(--ink);
+  border: none;
+  border-radius: 2px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  touch-action: manipulation;
+  white-space: nowrap;
+}
+
+.error-banner-retry:active {
+  transform: scale(0.96);
+}
+
+/* ==========================================================================
+   7. Broadsheet Search Modal (Keyboard & Touch Friendly)
+   ========================================================================== */
+
+.search-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding-top: max(20px, env(safe-area-inset-top));
+  animation: fadeIn 150ms ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.search-modal-sheet {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  background-color: var(--modal-bg);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  max-height: 85vh;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+}
+
+.search-modal-input-bar {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+  border-bottom: 1px solid var(--rule);
+  gap: 12px;
+  min-height: 56px;
+}
+
+.search-input-field {
+  flex: 1;
+  background: transparent;
+  border: none;
+  font-family: var(--font-text);
+  font-size: 16px;
+  color: var(--ink);
+  outline: none;
+  min-height: 48px;
+}
+
+.search-input-field::placeholder {
+  color: var(--muted);
+}
+
+.search-modal-results {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  max-height: 55vh;
+}
+
+.search-result-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  min-height: 52px;
+  border-bottom: 1px solid var(--rule);
+  background: transparent;
+  color: var(--ink);
+  text-align: left;
+  touch-action: manipulation;
+}
+
+.search-result-row:active,
+.search-result-row.selected {
+  background-color: rgba(0, 0, 0, 0.08);
+}
+
+.search-gps-row {
+  border-bottom: 2px solid var(--rule);
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.search-gps-row:hover,
+.search-gps-row:active {
+  background-color: rgba(0, 0, 0, 0.08);
+}
+
+.search-gps-row .result-city-name {
+  color: var(--accent);
+}
+
+.result-location-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.result-city-name {
+  font-family: var(--font-text);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.result-region {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.result-country-code {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--muted);
+  border: 1px solid var(--rule);
+  padding: 2px 6px;
+  border-radius: 2px;
+}
+
+.search-empty-note {
+  padding: 24px;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.recent-searches-header {
+  padding: 12px 20px 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-caps);
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* ==========================================================================
+   8. Layout-Matching Ruled Skeleton Loader
+   ========================================================================== */
+
+.skeleton-broadsheet {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.skeleton-line {
+  background: linear-gradient(
+    90deg,
+    var(--rule) 25%,
+    rgba(255, 255, 255, 0.4) 50%,
+    var(--rule) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeletonShimmer 1.8s infinite;
+  border-radius: 2px;
+}
+
+@keyframes skeletonShimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton-hero-number {
+  height: 110px;
+  width: 55%;
+}
+
+.skeleton-headline {
+  height: 28px;
+  width: 80%;
+}
+
+.skeleton-subhead {
+  height: 16px;
+  width: 45%;
+}
+
+.skeleton-ruled-row {
+  height: 48px;
+  width: 100%;
+  border-bottom: 1px solid var(--rule);
+}
+
+/* ==========================================================================
+   9. Footer & Colophon
+   ========================================================================== */
+
+.broadsheet-footer {
+  margin-top: 20px;
+  padding-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: left;
+}
+
+.colophon-text {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--muted);
+}

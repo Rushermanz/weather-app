@@ -1,0 +1,174 @@
+/* ==========================================================================
+   Broadsheet Atmospheric Themes
+   Controlled via [data-theme] on <html> root.
+   Smooth crossfade, WCAG AA contrast, and purposeful 60fps motion language.
+   ========================================================================== */
+
+/* Default / Clear Day: Amber solar gradient on warm editorial parchment */
+:root,
+[data-theme='clear-day'] {
+  --bg-from: #f8f2e6;
+  --bg-to: #e5a452;
+  --ink: #1c1712;
+  --accent: #b45309;
+  --rule: rgba(28, 23, 18, 0.18);
+  --muted: rgba(28, 23, 18, 0.65);
+  --paper: rgba(248, 242, 230, 0.85);
+  --modal-bg: #f8f2e6;
+}
+
+/* Clear Night: Deep midnight indigo and ink with bone hairline rules */
+[data-theme='clear-night'] {
+  --bg-from: #090e18;
+  --bg-to: #141d33;
+  --ink: #f1f5fc;
+  --accent: #818cf8;
+  --rule: rgba(241, 245, 252, 0.14);
+  --muted: rgba(241, 245, 252, 0.62);
+  --paper: rgba(14, 22, 38, 0.85);
+  --modal-bg: #0d1424;
+}
+
+/* Cloudy / Overcast: Muted charcoal and dense newsprint slate */
+[data-theme='cloudy'] {
+  --bg-from: #e2e7ec;
+  --bg-to: #8c9ba9;
+  --ink: #111827;
+  --accent: #475569;
+  --rule: rgba(17, 24, 39, 0.16);
+  --muted: rgba(17, 24, 39, 0.65);
+  --paper: rgba(226, 231, 236, 0.88);
+  --modal-bg: #e2e7ec;
+}
+
+/* Rain: Cool graphite, steel blue, hairline water accents */
+[data-theme='rain'] {
+  --bg-from: #1e293b;
+  --bg-to: #0f172a;
+  --ink: #f1f5f9;
+  --accent: #38bdf8;
+  --rule: rgba(241, 245, 249, 0.15);
+  --muted: rgba(241, 245, 249, 0.65);
+  --paper: rgba(22, 32, 48, 0.88);
+  --modal-bg: #131c2b;
+}
+
+/* Storm: Slate and bruised-purple tones with infrequent atmospheric sheet flash */
+[data-theme='storm'] {
+  --bg-from: #161124;
+  --bg-to: #291e42;
+  --ink: #f8fafc;
+  --accent: #c084fc;
+  --rule: rgba(248, 250, 252, 0.15);
+  --muted: rgba(248, 250, 252, 0.62);
+  --paper: rgba(26, 20, 44, 0.88);
+  --modal-bg: #161124;
+}
+
+/* Fog: Low-contrast, drifting translucent stratification */
+[data-theme='fog'] {
+  --bg-from: #cbd5e1;
+  --bg-to: #64748b;
+  --ink: #0f172a;
+  --accent: #334155;
+  --rule: rgba(15, 23, 42, 0.18);
+  --muted: rgba(15, 23, 42, 0.65);
+  --paper: rgba(203, 213, 225, 0.88);
+  --modal-bg: #cbd5e1;
+}
+
+/* Snow: High-key pastel blues with quiet drifting particles */
+[data-theme='snow'] {
+  --bg-from: #e2e8f0;
+  --bg-to: #bfdbfe;
+  --ink: #0f172a;
+  --accent: #1d4ed8;
+  --rule: rgba(15, 23, 42, 0.15);
+  --muted: rgba(15, 23, 42, 0.65);
+  --paper: rgba(226, 232, 240, 0.88);
+  --modal-bg: #e2e8f0;
+}
+
+/* ==========================================================================
+   Atmospheric Motion Language (GPU Accelerated: transform & opacity only)
+   ========================================================================== */
+
+/* Infrequent timed sheet-lightning flash (never strobing, opacity only) */
+@keyframes stormLightning {
+  0%, 91%, 95%, 100% {
+    opacity: 0;
+  }
+  92% {
+    opacity: 0.45;
+  }
+  94% {
+    opacity: 0.15;
+  }
+}
+
+.mood-layer-storm {
+  position: fixed;
+  inset: 0;
+  background-color: #ffffff;
+  pointer-events: none;
+  z-index: 1;
+  animation: stormLightning 14s ease-out infinite;
+}
+
+/* Drifting low-contrast fog layers */
+@keyframes fogDriftSlow {
+  0% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(-3%, 0, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+
+.mood-layer-fog {
+  position: fixed;
+  inset: -10%;
+  width: 120%;
+  height: 120%;
+  background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.18), transparent 70%);
+  pointer-events: none;
+  z-index: 1;
+  animation: fogDriftSlow 20s ease-in-out infinite;
+}
+
+/* High-efficiency snow particles (capped count for 60fps mobile execution) */
+@keyframes snowDrift {
+  0% {
+    transform: translate3d(0, -20px, 0);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.8;
+  }
+  85% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate3d(25px, 105vh, 0);
+    opacity: 0;
+  }
+}
+
+.mood-snow-flake {
+  position: fixed;
+  top: 0;
+  width: 4px;
+  height: 4px;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+  animation: snowDrift 10s linear infinite;
+}
+
+/* Reduced motion accessibility contract */
+@media (prefers-reduced-motion: reduce) {
+  .mood-layer-storm,
+  .mood-layer-fog,
+  .mood-snow-flake {
+    animation: none !important;
+    display: none !important;
+  }
+}
